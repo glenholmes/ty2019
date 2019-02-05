@@ -1,0 +1,21 @@
+<!-- index.ejs -->
+<h1>All Contacts</h1>
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Phone</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+		<% _.each(contacts, function(contact){ %>
+		<tr>
+			<td><%= contact.name %></td>
+			<td><%= contact.phone %></td>
+			<td><a href="/contact/show/<%= contact.id %>" class="btn btn-success">View</a></td>
+			<td><a href="/contact/edit/<%= contact.id %>" class="btn btn-warning">Edit</a></td>
+			<td><a href="/contact/delete/<%= contact.id %>" class="btn btn-danger">Delete</a></td>
+		</tr>
+		<% }) %>
+	</tbody>
+</table>

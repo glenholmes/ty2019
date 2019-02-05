@@ -1,0 +1,213 @@
+Phonebook App
+Backend
+Model
+/**
+ * Contact.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
+ */
+
+module.exports = {
+  attributes: {
+  	name : {
+  		type : 'string',
+  		required : true  		
+  	},
+
+  	phone : {
+  		type : 'string' 		
+  	},
+
+  	bio : {
+  		type : 'string',
+  		maxLength : 140
+  	}
+  }
+};
+
+Controller
+
+/**
+ * ContactController
+ *
+ * @description :: Server-side logic for managing contacts
+ * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ */
+
+module.exports = {
+	// View to show all contacts
+	index : function (req, res){
+		Contact.find(function(error, contacts){
+			if(error){
+				return res.serverError(error);
+			}
+
+			res.view({
+				contacts : contacts
+			})
+		})
+	},
+
+	// Action to create a contact
+	create : function (req, res){
+		Contact.create(req.params.all(), function(error, contact){
+			if(error){
+				return res.serverError(error);
+			}
+
+			res.redirect('/contact/show/'+contact.id);
+		})
+	},
+
+	// View to show contact
+	show : function (req, res){
+		Contact.findOne(req.param('id'), function(error, contact){
+			if(error){
+				return res.serverError(error);
+			}
+
+			if(!contact){
+				return res.notFound('Contact '+req.param('id')+' does not exist!');
+			}
+
+			res.view({
+				contact : contact
+			})
+		})
+	},
+
+	// View to edit a contact
+	edit : function (req, res){
+		Contact.findOne(req.param('id'), function(error, contact){
+			if(error){
+				return res.serverError(error);
+			}
+
+			if(!contact){
+				return res.notFound('Contact '+req.param('id')+' does not exist!');
+			}
+
+			res.view({
+				contact : contact
+			})
+		})
+	},
+
+	// Action to update a contact
+	update : function (req, res){
+		console.log(req.params.all());
+		Contact.update(req.param('id'), {bio : req.param('bio'), name : req.param('name'), phone : req.param('phone')}, function(error, contact){
+			if(error){
+				return res.serverError(error);
+			}
+
+			if(!contact){
+				return res.notFound('Contact '+req.param('id')+' does not exist!');
+			}
+
+			res.redirect('/contact/show/'+req.param('id'));
+		})
+	},
+
+	// Delete contact
+	delete : function (req, res){
+		Contact.destroy(req.param('id'), function(error, contact){
+			if(error){
+				return res.serverError(error);
+			}
+
+			if(!contact){
+				return res.notFound('Contact '+req.param('id')+' does not exist!');
+			}
+
+			res.redirect('/contact/');
+
+		})
+	}
+
+};
+
+
+
+
+
+Homepage.ejs
+
+<h1>My Phonebook</h1>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Add Contact</h3>
+        <form class="form" method="post" action="/contact/create">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" required="">
+          <label>Phone</label>
+          <input type="phone" name="phone" class="form-control" required="">
+          <label>Bio</label>
+          <textarea name="bio" maxlength="140" class="form-control"></textarea>
+          <input type="submit" class="form-control btn btn-success" value="Add Contact">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+Contact edit.ejs
+<h1>Edit Contact</h1>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel">
+      <div class="panel-body">
+        <form class="form" method="post" action="/contact/update/<%= contact.id %>">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" required="" value="<%= contact.name %>">
+          <label>Phone</label>
+          <input type="phone" name="phone" class="form-control" required="" value="<%= contact.phone %>">
+          <label>Bio</label>
+          <textarea name="bio" maxlength="140" class="form-control"><%= contact.bio %></textarea>
+          <input type="submit" class="btn btn-warning" value="Update Contact">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+Contact Index.ejs
+<!-- index.ejs -->
+<h1>All Contacts</h1>
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Phone</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+		<% _.each(contacts, function(contact){ %>
+		<tr>
+			<td><%= contact.name %></td>
+			<td><%= contact.phone %></td>
+			<td><a href="/contact/show/<%= contact.id %>" class="btn btn-success">View</a></td>
+			<td><a href="/contact/edit/<%= contact.id %>" class="btn btn-warning">Edit</a></td>
+			<td><a href="/contact/delete/<%= contact.id %>" class="btn btn-danger">Delete</a></td>
+		</tr>
+		<% }) %>
+	</tbody>
+</table>
+
+Contact Show
+<!-- show.ejs -->
+<h1>
+	<%= contact.name %>
+</h1>
+
+<h3>
+	<%= contact.phone %>
+</h3>
+
+<p>
+	<%= contact.bio %>
+</p>
+

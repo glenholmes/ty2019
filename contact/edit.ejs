@@ -1,0 +1,18 @@
+<h1>Edit Contact</h1>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel">
+      <div class="panel-body">
+        <form class="form" method="post" action="/contact/update/<%= contact.id %>">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" required="" value="<%= contact.name %>">
+          <label>Phone</label>
+          <input type="phone" name="phone" class="form-control" required="" value="<%= contact.phone %>">
+          <label>Bio</label>
+          <textarea name="bio" maxlength="140" class="form-control"><%= contact.bio %></textarea>
+          <input type="submit" class="btn btn-warning" value="Update Contact">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

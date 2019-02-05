@@ -1,0 +1,123 @@
+<!-- HTML CSS -->
+<h1>
+	Glen Holmes, 33
+</h1>
+<p>
+	Software Engineer // Web Technologist // NodeJS Enthusiast
+</p>
+<ul class="movies">
+	<li id="movieOne">
+		Star Wars: A New Hope
+	</li>
+	<li>
+		V for Vendetta
+	</li>
+	<li>
+		Goodfellas
+	</li>
+</ul>
+<p>
+	My favourite website is <a href="http://www.eelslap.com">Eel Slap</a>.
+</p>
+
+<style>
+	font-family: Arial;
+	body {
+	}
+
+	h1 {
+		color: blue;
+	}
+
+	.movies {
+		text-decoration: underline;
+		text-transform: uppercase;
+	}
+
+	#movieOne {
+		color : red;
+		font-style: oblique;
+	}
+</style>
+
+<!-- Third Party Libraries -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<!-- First Javascript -->
+
+<div class="container">
+	<button type="button" onclick="document.getElementById('demo0').innerHTML = Date()" class="btn btn-success">Get Date</button>
+		
+
+	<p id="demo0"></p>
+	
+	
+	<!-- Using if statements -->
+	<script type="text/javascript">
+		window.onload = function(){
+			setInterval(lunchTime, 30000);
+			function lunchTime() {
+				var d = new Date();
+				var h = d.getHours();
+				var m = d.getMinutes();
+				if(h == 14 && m == 44){
+					alert("It's Tea Time!");
+				}
+			}
+		};
+	</script>
+
+	<!-- Introducing functions & variables and switch statements -->
+	<input type="number" id="num1" placeholder="12" class="form-control">
+	<select id="operand" class="form-control">
+		<option value="+">+</option>
+		<option value="-">-</option>
+		<option value="*">*</option>
+		<option value="/">/</option>
+	</select>
+	<input type="number" id="num2" placeholder="13" class="form-control">
+
+	<button type="button" onclick="calculate()" class="btn btn-success">Calculate</button>
+
+	<p id="demo1"></p>
+
+	<script type="text/javascript">
+		function calculate() {
+			// initalize variables
+			var num1;
+			var num2;
+			var oper;
+			var result = 0;
+
+			// get value from number fields
+			num1 = 	document.getElementById('num1').value || 0;
+			num2 = 	document.getElementById('num2').value || 0;
+			oper =  document.getElementById('operand').value;
+
+			switch(oper){
+				case "+" : 
+					result = parseInt(num1) + parseInt(num2);
+					document.getElementById('demo1').innerHTML = "<h3>Answer = "+ result+"</h3>";
+					break;
+				case "-" : 
+					result = parseInt(num1) - parseInt(num2);
+					document.getElementById('demo1').innerHTML = "<h3>Answer = "+ result+"</h3>";
+					break;
+				case "*" : 
+					result = parseInt(num1) * parseInt(num2);
+					document.getElementById('demo1').innerHTML = "<h3>Answer = "+ result+"</h3>";
+					break;
+				case "/" : 
+					result = parseInt(num1) / parseInt(num2);
+					document.getElementById('demo1').innerHTML = "<h3>Answer = "+ result+"</h3>";
+					break;
+			}
+		} 
+	</script>
+
+	<p id="demo3"></p>
+</div>
